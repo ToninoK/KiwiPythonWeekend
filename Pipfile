@@ -6,6 +6,8 @@ name = "pypi"
 [packages]
 requests-html = "*"
 fire = "*"
+currencyconverter = "*"
+dataclasses = "*"
 
 [dev-packages]
 
