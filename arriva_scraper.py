@@ -4,6 +4,7 @@ from cacheControl import CacheController, Journey
 
 c = CurrencyConverter()
 
+
 class ArrivaScraper:
     def __init__(self):
         self.url = "https://www.arriva.com.hr/en-us/choose-your-journey"
@@ -43,41 +44,42 @@ class ArrivaScraper:
 
         journeys = [
             Journey(
-                source=search[0], 
+                source=search[0],
                 destination=search[1],
                 date=search[2],
-                departure=dep[i]+' h',
-                arrival=arr[i]+' h',
-                duration=dur[i]+' h',
+                departure=dep[i] + " h",
+                arrival=arr[i] + " h",
+                duration=dur[i] + " h",
                 price=pr[i],
-                carrier=carr[i]
-            ) for i in range(len(dep))
+                carrier=carr[i],
+            )
+            for i in range(len(dep))
         ]
-        
+
         return self.cacher.cacheJourneys(journeys, search)
 
     def fetchDepartures(self):
-        return[
-            dep.find('strong')[0].text.split('-')[0][:-1] for dep in self.html.find('.vrijeme-top')
-        ]
-    
-    def fetchArrivals(self):
-        return[
-            arr.find('strong')[0].text.split('-')[1][1:] for arr in self.html.find('.vrijeme-top')
-        ]
-    
-    def fetchPrices(self):
-        prices = [ pr.find('a')[0].text.split(',')[0] for pr in self.html.find('.cijena') if pr.find('a') != [] ]
-        return[
-            round(c.convert( int( ep ),'HRK' ), 2) for ep in prices
-        ]
-    
-    def fetchDurations(self):
-        return[
-            dur.text[16:] for dur in self.html.find('.vrijeme-bottom')
+        return [
+            dep.find("strong")[0].text.split("-")[0][:-1]
+            for dep in self.html.find(".vrijeme-top")
         ]
 
-    def fetchCarriers(self):
-        return[
-            carr.text[9:] for carr in self.html.find('.prijevoznik')
+    def fetchArrivals(self):
+        return [
+            arr.find("strong")[0].text.split("-")[1][1:]
+            for arr in self.html.find(".vrijeme-top")
         ]
+
+    def fetchPrices(self):
+        prices = [
+            pr.find("a")[0].text.split(",")[0]
+            for pr in self.html.find(".cijena")
+            if pr.find("a") != []
+        ]
+        return [round(c.convert(int(ep), "HRK"), 2) for ep in prices]
+
+    def fetchDurations(self):
+        return [dur.text[16:] for dur in self.html.find(".vrijeme-bottom")]
+
+    def fetchCarriers(self):
+        return [carr.text[9:] for carr in self.html.find(".prijevoznik")]
