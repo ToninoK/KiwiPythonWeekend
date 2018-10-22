@@ -2,7 +2,7 @@ from redis import Redis
 from slugify import slugify
 import json
 
-from data_structure import Journey
+from data_structure import Journey, toJourney
 
 host = "127.0.0.1"
 port = 3001
@@ -31,16 +31,6 @@ class CacheController:
         journeys = self.red.get(journeys_name)
         if journeys:
             return [
-                Journey(
-                    source=journey["source"],
-                    destination=journey["destination"],
-                    date=journey["date"],
-                    departure=journey["departure"],
-                    arrival=journey["arrival"],
-                    duration=journey["duration"],
-                    price=journey["price"],
-                    carrier=journey["carrier"],
-                )
-                for journey in dict(json.loads(journeys))["journeys"]
+                toJourney(journey) for journey in dict(json.loads(journeys))["journeys"]
             ]
         return False

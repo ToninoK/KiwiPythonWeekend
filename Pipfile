@@ -10,6 +10,8 @@ currencyconverter = "*"
 dataclasses = "*"
 redis = "*"
 python-slugify = "*"
+flask = "*"
+"psycopg2" = "*"
 
 [dev-packages]
 
