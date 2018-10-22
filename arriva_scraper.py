@@ -1,6 +1,8 @@
 from requests_html import HTMLSession
 from currency_converter import CurrencyConverter
-from cacheControl import CacheController, Journey
+
+from cacheControl import CacheController
+from data_structure import Journey
 
 c = CurrencyConverter()
 
