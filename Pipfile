@@ -8,6 +8,8 @@ requests-html = "*"
 fire = "*"
 currencyconverter = "*"
 dataclasses = "*"
+redis = "*"
+python-slugify = "*"
 
 [dev-packages]
 
