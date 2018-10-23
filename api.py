@@ -1,4 +1,4 @@
-from flask import Flask, jsonify, request
+from flask import Flask, jsonify, request, render_template, redirect, url_for
 
 from arriva_scraper import ArrivaScraper
 from data_structure import Journey
@@ -11,10 +11,13 @@ db = DbController()
 db.createTable()
 cacher = CacheController()
 
+@APP.route("/")
+def red():
+    return redirect(url_for('home'))
 
-@APP.route("/test")
-def test():
-    return "<h1>Test</h1>"
+@APP.route("/home")
+def home():
+    return render_template('homepage.html')
 
 
 @APP.route("/add")
@@ -29,17 +32,20 @@ def add():
     return jsonify({"journeys": lst_of_journeys})
 
 
-@APP.route("/")
-def get_journeys():
-    source = request.args.get("source")
-    destination = request.args.get("dest")
-    date = request.args.get("date")
+@APP.route("/search", methods=['POST'])
+def search():
+    source = request.form["source"]
+    destination = request.form["destination"]
+    date = request.form["date"]
     search = [source, destination, date]
-
+    print("req_mades")
     cached_data = cacher.getJourneys(search)
 
     if cached_data:
-        return jsonify({"journeys": [journey.toDict() for journey in cached_data]})
-
+        data = {"journeys": [journey.toDict() for journey in cached_data]}
+        return render_template('search.html', data=data)
     data = db.getJourneys(search)
-    return jsonify(data)
+    return render_template('search.html', data=data)
+
+if __name__="__main__":
+    APP.run()

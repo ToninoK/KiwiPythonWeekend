@@ -1,0 +1,17 @@
+{% extends "homepage.html" %}
+{% block body %}
+{% for journey in data["journeys"] %}
+    <li style="background-color:rgb(224, 224, 235); list-style:none; padding:10px; margin: 5px 0px 5px 0px; width:200px; display:inline-block">
+            <p style="width:200px; font-weight: 600 ">Source:{{journey["source"]}}</p>
+            <p style="width:200px; font-weight: 600 ">Destination:{{journey["destination"]}}</p>
+            <p style="width:200px; font-weight: 600 ">Date:{{journey["date"]}}</p>
+            <p style="width:200px; font-weight: 600 ">Departure:{{journey["departure"]}}</p>
+            <p style="width:200px; font-weight: 600 ">Arrival:{{journey["arrival"]}}</p>
+            <p style="width:200px; font-weight: 600 ">Duration:{{journey["duration"]}}</p>
+            <p style="width:200px; font-weight: 600 ">Price:{{journey["price"]}} EUR</p>
+            <p style="width:200px; font-weight: 600 ">Carrier:{{journey["carrier"]}}</p>       
+        </li>
+    {% else %}
+        <h3>Nothing entered in the search yet</h3>
+    {% endfor %}
+{% endblock %}
